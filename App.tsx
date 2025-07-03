@@ -5,6 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Header from "./componet/common/Header.tsx";
 import TodoList from "./componet/screen/TodoList.tsx";
 import AddTodo from "./componet/screen/AddTodo.tsx"
+import {Provider} from "react-redux";
+import {store} from "./componet/store";
 
 export type RootStackParamList = {
     TodoList: View;
@@ -16,7 +18,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function App(): React.JSX.Element {
     return (
         <NavigationContainer>
-            <SafeAreaView style={styles.container}>
+            <Provider store={store}>
+                <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <Header/>
                 <Stack.Navigator
@@ -29,6 +32,7 @@ function App(): React.JSX.Element {
                     <Stack.Screen name="AddTodo" component={AddTodo} />
                 </Stack.Navigator>
             </SafeAreaView>
+                </Provider>
         </NavigationContainer>
     );
 }
