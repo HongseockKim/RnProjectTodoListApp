@@ -1,9 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
 import todoSlice from "./slice/todoSlice.ts";
+import systemSlice from "./slice/systemSlice.ts";
 
 export const store = configureStore({
     reducer: {
         todos: todoSlice,
+        system:systemSlice,
     },
 });
 

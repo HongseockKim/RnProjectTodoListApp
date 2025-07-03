@@ -10,3 +10,8 @@ export interface TodoState {
     loading: boolean;
     error: string | null;
 }
+
+export interface systemState {
+    headerTitle: string;
+    logoShow: boolean;
+}

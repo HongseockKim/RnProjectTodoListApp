@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-    StyleSheet,
-    TextStyle,
-    View,
-    ViewStyle,
-    Text,
-    TouchableOpacity,
-    StatusBar,
-    Image,
-    ImageStyle
-} from "react-native";
+import {Image, ImageStyle, StatusBar, StyleSheet, TextStyle, View, ViewStyle} from "react-native";
 import {IMAGES} from "../../constants/images.ts";
+import {useAppDispatch, useAppSelector} from "../store/hooks/hooks.ts";
+import {useNavigation} from "@react-navigation/native";
+import {setLogoShow} from "../store/slice/systemSlice.ts";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type HeaderStylesType = {
     logo: ImageStyle;
@@ -20,7 +14,7 @@ type HeaderStylesType = {
     centerSection: ViewStyle;
     rightSection: ViewStyle;
     title: TextStyle;
-    backButton: ViewStyle;
+    backButton: ViewStyle; // ViewStyle로 변경
     menuButton: ViewStyle;
 }
 
@@ -32,10 +26,11 @@ const HeaderStyles = StyleSheet.create<HeaderStylesType>({
         borderBottomWidth: 1,
         borderBottomColor: '#dee2e6',
         paddingTop: StatusBar.currentHeight || 0,
+        overflow:'hidden'
     },
     logo:{
-        width:40,
-        height:60,
+        width: 40,
+        height: 60,
     },
     content: {
         flex: 1,
@@ -54,30 +49,44 @@ const HeaderStyles = StyleSheet.create<HeaderStylesType>({
         alignItems: 'center',
     },
     rightSection: {
-        flex: 1,
+        flex: 0,
         alignItems: 'flex-end',
     },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
+        textAlign:'center',
         color: '#343a40',
     },
     backButton: {
-        padding: 8,
+        height:50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     menuButton: {
         padding: 8,
     },
 });
 
-
-
 const Header = () => {
+    const logoShow = useAppSelector(state => state.system.logoShow);
+    const navigation = useNavigation();
+    const dispatch = useAppDispatch();
+
+    const handleBackPress = () => {
+        dispatch(setLogoShow(true));
+        navigation.goBack();
+    }
+
     return (
         <View style={HeaderStyles.container}>
             <View style={HeaderStyles.content}>
                 <View style={HeaderStyles.leftSection}>
-                    <Image style={HeaderStyles.logo} source={IMAGES.LOGO}/>
+                    {
+                        logoShow
+                            ? <Image style={HeaderStyles.logo} source={IMAGES.LOGO}/>
+                            : <Icon name="chevron-left" size={40} color="white" style={HeaderStyles.backButton} onPress={handleBackPress} />
+                    }
                 </View>
             </View>
         </View>

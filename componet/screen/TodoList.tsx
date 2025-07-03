@@ -2,6 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../App.tsx";
+import {useAppDispatch} from "../store/hooks/hooks.ts";
+import {setLogoShow} from "../store/slice/systemSlice.ts";
 
 
 type TodoListNavigationProp = NativeStackNavigationProp<
@@ -14,8 +16,9 @@ interface Props {
 }
 
 const TodoList: React.FC<Props> = ({ navigation }) => {
+    const dispatch = useAppDispatch();
     const handleAddTodo = () => {
-        // AddTodo 화면으로 이동!
+        dispatch(setLogoShow(false));
         navigation.navigate('AddTodo');
     };
 
